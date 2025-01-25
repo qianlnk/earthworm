@@ -68,16 +68,20 @@
           />
         </UTooltip>
       </div>
+
     </div>
 
     <MainCourseContents v-model:isOpen="isOpenCourseContents"></MainCourseContents>
   </div>
 
-  <CommonProgressBar
-    class="h-6 p-[2px]"
-    :percentage="currentPercentage"
-  />
-  <RankRankingBoard />
+  <template v-if="!isSnakeMode()">
+    <CommonProgressBar
+      class="h-6 p-[2px]"
+      :percentage="currentPercentage"
+    />
+    <RankRankingBoard />
+  </template>
+  <MainSnakeSnakeGame v-else />
 </template>
 
 <script setup lang="ts">
@@ -93,13 +97,13 @@ import { useCourseContents } from "~/composables/main/useCourseContents";
 import { useGamePause } from "~/composables/main/useGamePause";
 import { useGameSetting } from "~/composables/main/useGameSetting";
 import { useRanking } from "~/composables/rank/rankingList";
-import { useGamePlayMode } from "~/composables/user/gamePlayMode";
+import { useGamePlayMode, GamePlayMode } from "~/composables/user/gamePlayMode";
 import { parseShortcut, useShortcutKeyMode } from "~/composables/user/shortcutKey";
 import { isAuthenticated } from "~/services/auth";
 import { useCourseStore } from "~/store/course";
 
 const { shortcutKeys } = useShortcutKeyMode();
-const { isDictationMode } = useGamePlayMode();
+const { isDictationMode, isSnakeMode } = useGamePlayMode();
 const rankingStore = useRanking();
 const courseStore = useCourseStore();
 const { focusInput } = useQuestionInput();
@@ -164,6 +168,8 @@ function useDoAgain() {
     handleTipConfirm,
   };
 }
+
+
 </script>
 
 <style scoped>

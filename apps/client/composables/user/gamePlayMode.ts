@@ -3,11 +3,13 @@ import { ref } from "vue";
 export enum GamePlayMode {
   Dictation = "DICTATION",
   ChineseToEnglish = "CHINESE_TO_ENGLISH",
+  Snake = "SNAKE",
 }
 
 export const gamePlayModeLabels: { [key in GamePlayMode]: string } = {
   [GamePlayMode.ChineseToEnglish]: "中译英",
   [GamePlayMode.Dictation]: "听写",
+  [GamePlayMode.Snake]: "贪食蛇",
 };
 
 const GamePlayModeKey = "gamePlayMode";
@@ -51,11 +53,16 @@ export function useGamePlayMode() {
     return currentGamePlayMode.value === GamePlayMode.ChineseToEnglish;
   }
 
+  function isSnakeMode() {
+    return currentGamePlayMode.value === GamePlayMode.Snake;
+  }
+
   return {
     toggleGamePlayMode,
     getGamePlayModeOptions,
     currentGamePlayMode,
     isDictationMode,
     isChineseToEnglishMode,
+    isSnakeMode,
   };
 }
